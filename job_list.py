@@ -7,13 +7,13 @@ import gzip
 import brotli
 from lxml import etree
 
+BOT_TOKEN = "7902504357:AAHmAJLmkYQm0C2znCAr7NBDGzkYg30QWLE"
+CHAT_ID = "5766475665"
+GROUP_ID = "-4254914187"
+
 
 URL = "https://ai-jobs.net/"
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-}
 
-URL = "https://ai-jobs.net/"
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Version/16.0 Safari/537.36",
@@ -81,12 +81,26 @@ def save_jobs_to_csv(jobs, filename='ai_jobs.csv'):
         writer.writerows(jobs)
 
         print(f"{len(jobs)} found and recorded")
+        return filename
+
+def send_csv_to_telegram(file):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendDocument"
+    payload = {"chat_id": GROUP_ID, "caption": "Latest Job Listings 📄"}
+
+    with open(file, mode='rb') as file:
+        files = {"document": file}
+        response = requests.post(url, data=payload, files=files)
+
+    print(response.json())
+        
+    
 
 def main():
         print('fetching job')
         html = fetch_jobs()
         jobs = parse_html(html)
-        save_jobs_to_csv(jobs)
+        file = save_jobs_to_csv(jobs)
+        send_csv_to_telegram(file)
 
         
 if __name__ == "__main__":
@@ -96,9 +110,6 @@ if __name__ == "__main__":
 
                                 
                      
-
-x = parse_html(fetch_jobs())
-print(x)
 
 
 
