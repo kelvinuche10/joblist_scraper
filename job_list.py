@@ -7,9 +7,8 @@ import gzip
 import brotli
 from lxml import etree
 
-BOT_TOKEN = "7902504357:AAHmAJLmkYQm0C2znCAr7NBDGzkYg30QWLE"
-CHAT_ID = "5766475665"
-GROUP_ID = "-4254914187"
+BOT_TOKEN = {YOUR BOT TOKEN}
+GROUP_ID = {GROUP-ID}
 
 
 URL = "https://ai-jobs.net/"
